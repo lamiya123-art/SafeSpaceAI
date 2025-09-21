@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeSpace AI - Your Mental Wellness Community</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Poppins:wght@500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --bg-lavender: #E8E3FF;
+            --soft-sky: #D6EEFF;
+            --mint-accent: #DFF7EB;
+            --soft-peach: #FFE6D8;
+            --primary-accent: #8C6DF0;
+            --card-bg: rgba(255, 255, 255, 0.7);
+            --heading-font: 'Poppins', sans-serif;
+            --body-font: 'Inter', sans-serif;
+        }
+
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body {
+            font-family: var(--body-font);
+            background: linear-gradient(-45deg, var(--bg-lavender), var(--soft-sky), var(--soft-peach), var(--mint-accent));
+            background-size: 400% 400%;
+            animation: gradient-animation 25s ease infinite;
+            overflow: hidden;
+        }
+
+        .font-heading { font-family: var(--heading-font); }
+        .font-body { font-family: var(--body-font); }
+
+        @keyframes card-fade-in {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes bounce-soft {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(-2deg); }
+            50% { transform: rotate(2deg); }
+        }
+        
+        #mascot-container:hover {
+            animation: wiggle 0.5s ease-in-out infinite;
+        }
+        
+        .celebrate-bounce {
+             animation: bounce-celebrate 0.6s ease-out;
+        }
+        
+        @keyframes bounce-celebrate {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1) translateY(-10px); }
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .page {
+             transition: opacity 0.4s ease-in-out;
+        }
+        .page.hidden {
+            opacity: 0;
+            pointer-events: none;
+            position: absolute;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-accent);
+            color: white;
+            border-radius: 12px;
+            font-family: var(--heading-font);
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(140, 109, 240, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: rgba(255, 255, 255, 0.5);
+            color: var(--primary-accent);
+            border: 1px solid var(--primary-accent);
+        }
+        
+        .progress-bar-fill {
+            background: linear-gradient(90deg, #A5B4FC, #8C6DF0);
+            transition: width 1s ease-in-out;
+        }
+        
+        .nav-item.active {
+            background-color: var(--bg-lavender);
+            color: var(--primary-accent);
+            font-weight: 600;
+        }
+
+        .breathing-circle {
+            animation: breathe 8s ease-in-out infinite, pulse-glow 4s ease-in-out infinite;
+        }
+        @keyframes breathe {
+            0%, 100% { transform: scale(0.8); }
+            50% { transform: scale(1); }
+        }
+        @keyframes pulse-glow {
+             0%, 100% { box-shadow: 0 0 20px rgba(167, 139, 250, 0.5); }
+             50% { box-shadow: 0 0 40px rgba(167, 139, 250, 1); }
+        }
+
+        @keyframes badge-glow {
+            0% { box-shadow: 0 0 5px #FBBF24, 0 0 10px #FBBF24, 0 0 15px #FBBF24; }
+            50% { box-shadow: 0 0 20px #FBBF24, 0 0 30px #FBBF24, 0 0 40px #FBBF24; }
+            100% { box-shadow: 0 0 5px #FBBF24, 0 0 10px #FBBF24, 0 0 15px #FBBF24; }
+        }
+        .badge-glow {
+            animation: badge-glow 3s infinite ease-in-out;
+        }
+
+        .toast-notification {
+            transition: all 0.5s ease-in-out;
+        }
+
+        .avocado-bounce {
+            animation: bounce-soft 3s ease-in-out infinite;
+        }
+        
+        @keyframes sparkle-anim {
+            0%, 100% { transform: scale(0.5); opacity: 0; }
+            50% { transform: scale(1); opacity: 1; }
+        }
+        .sparkle { animation: sparkle-anim 1.5s ease-in-out infinite; }
+        .sparkle:nth-child(2) { animation-delay: 0.3s; }
+        .sparkle:nth-child(3) { animation-delay: 0.6s; }
+        
+        .gemini-loader-dot {
+            animation: dot-loader 1.4s infinite ease-in-out both;
+        }
+        .gemini-loader-dot:nth-child(1) { animation-delay: -0.32s; }
+        .gemini-loader-dot:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes dot-loader {
+          0%, 80%, 100% { transform: scale(0); }
+          40% { transform: scale(1.0); }
+        }
+        
+        .confetti-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .confetti {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: fall 3s linear forwards;
+        }
+        @keyframes fall {
+            to {
+                transform: translateY(150px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="flex h-screen">
+        <!-- Sidebar Navigation -->
+        <aside class="w-20 lg:w-64 flex flex-col items-center lg:items-start bg-white/50 backdrop-blur-lg border-r border-white/50 py-6 shrink-0 transition-all duration-300">
+            <div class="flex items-center gap-3 mb-12 px-6">
+                <div class="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center shrink-0">
+                    <i data-lucide="sparkles" class="text-indigo-500"></i>
+                </div>
+                <h1 class="text-2xl font-heading font-semibold text-slate-800 hidden lg:block">SafeSpace</h1>
+            </div>
+            <nav class="flex flex-col gap-3 w-full px-4">
+                 <a href="#landing" onclick="showPage('landing')" class="nav-item flex items-center justify-center lg:justify-start gap-4 px-3 py-3 text-gray-600 hover:bg-gray-100/50 rounded-xl" aria-label="Go to Home page">
+                    <i data-lucide="home"></i> <span class="hidden lg:inline">Home</span>
+                </a>
+                <a href="#dashboard" onclick="showPage('dashboard')" class="nav-item active flex items-center justify-center lg:justify-start gap-4 px-3 py-3 text-gray-600 hover:bg-gray-100/50 rounded-xl" aria-label="Go to your Dashboard">
+                    <i data-lucide="layout-dashboard"></i> <span class="hidden lg:inline">Dashboard</span>
+                </a>
+                <a href="#feed" onclick="showPage('feed')" class="nav-item flex items-center justify-center lg:justify-start gap-4 px-3 py-3 text-gray-600 hover:bg-gray-100/50 rounded-xl" aria-label="Go to the Community Feed">
+                    <i data-lucide="message-circle"></i> <span class="hidden lg:inline">Community</span>
+                </a>
+                <a href="#profile" onclick="showPage('profile')" class="nav-item flex items-center justify-center lg:justify-start gap-4 px-3 py-3 text-gray-600 hover:bg-gray-100/50 rounded-xl" aria-label="Go to your Profile">
+                    <i data-lucide="user-circle-2"></i> <span class="hidden lg:inline">Profile</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-6 lg:p-10 overflow-y-auto">
+            <div id="page-container" class="relative">
+                <!-- 0. New Login Page -->
+                <section id="login" class="page h-full">
+                    <div class="flex flex-col items-center justify-center h-full max-w-md mx-auto">
+                        <div class="card w-full text-center p-8">
+                            <!-- Upload State -->
+                            <div id="login-upload-state">
+                                <h2 class="font-heading text-2xl font-semibold text-slate-800 mb-2">Hello, welcome back!</h2>
+                                <p class="text-slate-500 mb-6">Let's see how you're feeling today.</p>
+                                
+                                <input type="file" id="photo-upload" class="hidden" accept="image/*" onchange="handlePhotoUpload()">
+                                <label for="photo-upload" class="cursor-pointer group">
+                                    <div class="w-40 h-40 mx-auto rounded-full bg-gradient-to-br from-purple-200 to-sky-200 flex flex-col items-center justify-center group-hover:scale-105 group-hover:shadow-xl transition-all duration-300">
+                                        <i data-lucide="camera" class="w-16 h-16 text-white/80 group-hover:text-white transition-colors"></i>
+                                    </div>
+                                    <p class="font-heading font-medium text-slate-600 mt-4">Take a Selfie</p>
+                                </label>
+                                <p class="text-xs text-slate-400 mt-2">or upload a photo</p>
+                            </div>
+                            
+                            <!-- Result State (hidden initially) -->
+                            <div id="login-result-state" class="hidden">
+                                <div id="login-companion-pet" class="w-24 h-24 mx-auto mb-4 transition-all duration-500">
+                                    <!-- Mood-based pets will be injected here by JS -->
+                                </div>
+                                <h2 id="mood-text" class="font-heading text-xl font-semibold text-slate-800 mb-2">Analyzing...</h2>
+                                <p id="mood-subtext" class="text-slate-500 mb-6">Give us a moment to check in with you.</p>
+                                <button onclick="showPage('landing')" class="btn-primary w-full py-3 text-base mt-4 opacity-0 transition-opacity duration-500" id="enter-safespace-btn" aria-label="Enter SafeSpace">Enter SafeSpace</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 1. Landing Page -->
+                <section id="landing" class="page hidden h-full">
+                    <div class="text-center flex flex-col items-center justify-center h-full max-w-2xl mx-auto">
+                        <div class="absolute top-4 right-4 flex items-center gap-2 text-sm text-slate-600 bg-white/50 p-2 rounded-full">
+                            <span>Abstract</span>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" value="" class="sr-only peer" id="mascot-toggle" onchange="toggleMascot()" checked>
+                                <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-accent"></div>
+                            </label>
+                            <span>Mascot</span>
+                        </div>
+
+                         <div id="mascot-container" class="relative w-48 h-48 mb-6 avocado-bounce">
+                             <svg viewBox="0 0 100 100" class="relative w-full h-full">
+                                <!-- Redesigned Avocado Mascot -->
+                                <path d="M50,98 C77.6,98 90,77.6 90,50 C90,22.4 77.6,2 50,2 C22.4,2 10,22.4 10,50 C10,77.6 22.4,98 50,98 Z" fill="#2E7D32"/>
+                                <path d="M50,92 C74.2,92 84,74.2 84,50 C84,25.8 74.2,8 50,8 C25.8,8 16,25.8 16,50 C16,74.2 25.8,92 50,92 Z" fill="#A5D6A7"/>
+                                <path d="M50,72 C65,72 72,55 50,45 C28,55 35,72 50,72 Z" fill="#6D4C41" transform="rotate(10 50 50)"/>
+                                <path d="M35,60 C32,58 32,52 38,50" fill="none" stroke="#5D4037" stroke-width="2.5" stroke-linecap="round"/>
+                                <path d="M65,60 C68,58 68,52 62,50" fill="none" stroke="#5D4037" stroke-width="2.5" stroke-linecap="round"/>
+                                <circle cx="40" cy="40" r="6" fill="#263238"/>
+                                <circle cx="60" cy="40" r="6" fill="#263238"/>
+                                <circle cx="42" cy="38" r="2" fill="white"/>
+                                <circle cx="62" cy="38" r="2" fill="white"/>
+                                <path d="M48,49 C50,52 52,52 54,49" fill="none" stroke="#263238" stroke-width="2" stroke-linecap="round"/>
+                             </svg>
+                         </div>
+                         <div id="abstract-container" class="relative w-48 h-48 mb-6 hidden">
+                            <div class="absolute top-0 left-10 w-24 h-24 bg-gradient-to-br from-purple-300 to-indigo-300 rounded-full opacity-80"></div>
+                            <div class="absolute bottom-0 right-8 w-32 h-32 bg-gradient-to-br from-sky-200 to-blue-200 rounded-full opacity-70"></div>
+                            <div class="absolute top-10 right-0 w-16 h-16 bg-gradient-to-br from-peach-200 to-orange-200 rounded-full opacity-90"></div>
+                         </div>
+
+                        <h1 class="font-heading text-4xl lg:text-5xl font-semibold text-slate-800 mb-4">Welcome to SafeSpace AI</h1>
+                        <p class="text-lg text-slate-500 mb-8">A hopeful, gamified space to nurture your mental wellness. You are not alone.</p>
+                        <button onclick="showPage('dashboard')" class="btn-primary py-3 px-8 text-lg" aria-label="Enter Your Safe Space">Enter Your Safe Space</button>
+                    </div>
+                </section>
+                
+                <!-- 2. User Dashboard -->
+                <section id="dashboard" class="page hidden">
+                    <h2 class="font-heading text-3xl font-semibold text-slate-800 mb-6">Your Dashboard</h2>
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="card p-6 flex flex-col items-center justify-center text-center">
+                            <p class="text-sm font-semibold text-purple-700">Kindness Points</p>
+                            <div class="flex items-center gap-2 my-2">
+                                <svg class="w-8 h-8 text-yellow-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2z"></path></svg>
+                               <p id="kindness-points" class="font-heading text-4xl font-semibold text-slate-800">1,500</p>
+                            </div>
+                            <button class="text-xs text-slate-500 hover:underline" onclick="addPoints(10)" aria-label="Add 10 kindness points for demonstration">Demo: Add 10 points</button>
+                        </div>
+                        <div class="card p-6 flex flex-col items-center justify-center text-center">
+                             <p class="text-sm font-semibold text-blue-700">Today's Mood</p>
+                             <div class="flex items-center gap-4">
+                                <svg class="w-12 h-12 my-2 text-yellow-400" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM9 13.5C9 14.3284 8.32843 15 7.5 15C6.67157 15 6 14.3284 6 13.5C6 12.6716 6.67157 12 7.5 12C8.32843 12 9 12.6716 9 13.5ZM16.5 15C17.3284 15 18 14.3284 18 13.5C18 12.6716 17.3284 12 16.5 12C15.6716 12 15 12.6716 15 13.5C15 14.3284 15.6716 15 16.5 15ZM16.8637 8.36374C16.5121 7.81119 15.8243 7.6338 15.2718 7.98539L15.2071 8.02944L14.75 8.28347C13.881 8.76869 12.9693 9 12 9C11.0307 9 10.119 8.76869 9.25 8.28347L8.79289 8.02944L8.7282 7.98539C8.17565 7.6338 7.48786 7.81119 7.13626 8.36374C6.78466 8.91628 6.96205 9.60408 7.51461 9.95567L7.57929 10L12 12.5L16.4207 10L16.4854 9.95567C17.038 9.60408 17.2153 8.91628 16.8637 8.36374Z" clip-rule="evenodd"/></svg>
+                                <div>
+                                     <p class="text-left font-medium text-slate-700">Happy</p>
+                                     <button class="text-xs text-indigo-500 hover:underline text-left" onclick="getMoodInsight('Happy')" aria-label="Get AI Mood Insight for Happy mood">
+                                         <span class="flex items-center gap-1"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2z"></path></svg> Get My Mood Insight</span>
+                                     </button>
+                                </div>
+                             </div>
+                        </div>
+                        <div class="card p-6 flex flex-col items-center justify-center text-center relative">
+                            <div class="confetti-container"></div>
+                            <p class="text-sm font-semibold text-emerald-700">Emotion Pet</p>
+                             <div id="emotion-pet" class="w-24 h-24 -my-4 transition-all duration-500">
+                                <!-- Avocado stages will be toggled here -->
+                                <svg class="w-full h-full" viewBox="0 0 100 100">
+                                    <g id="pet-stage-1" class="opacity-100 transition-opacity">
+                                        <!-- Stage 1: Neutral -->
+                                        <path d="M50,98 C77.6,98 90,77.6 90,50 C90,22.4 77.6,2 50,2 C22.4,2 10,22.4 10,50 C10,77.6 22.4,98 50,98 Z" fill="#2E7D32"/><path d="M50,92 C74.2,92 84,74.2 84,50 C84,25.8 74.2,8 50,8 C25.8,8 16,25.8 16,50 C16,74.2 25.8,92 50,92 Z" fill="#A5D6A7"/><path d="M50,72 C65,72 72,55 50,45 C28,55 35,72 50,72 Z" fill="#6D4C41" transform="rotate(10 50 50)"/><path d="M35,60 C32,58 32,52 38,50" fill="none" stroke="#5D4037" stroke-width="2.5" stroke-linecap="round"/><path d="M65,60 C68,58 68,52 62,50" fill="none" stroke="#5D4037" stroke-width="2.5" stroke-linecap="round"/><circle cx="40" cy="40" r="5" fill="#263238"/><circle cx="60" cy="40" r="5" fill="#263238"/><path d="M48,49 C50,51 52,51 54,49" fill="none" stroke="#263238" stroke-width="1.5" stroke-linecap="round"/>
+                                    </g>
+                                    <g id="pet-stage-2" class="opacity-0 transition-opacity">
+                                        <!-- Stage 2: Happy -->
+                                        <path d="M50,98 C77.6,98 90,77.6 90,50 C90,22.4 77.6,2 50,2 C22.4,2 10,22.4 10,50 C10,77.6 22.4,98 50,98 Z" fill="#2E7D32"/><path d="M50,92 C74.2,92 84,74.2 84,50 C84,25.8 74.2,8 50,8 C25.8,8 16,25.8 16,50 C16,74.2 25.8,92 50,92 Z" fill="#A5D6A7"/><path d="M50,68 C70,68 74,50 50,45 C26,50 30,68 50,68 Z" fill="#E91E63" transform="rotate(10 50 50)"/><path d="M35,60 C32,58 32,52 38,50" fill="none" stroke="#5D4037" stroke-width="2.5" stroke-linecap="round"/><path d="M65,60 C68,58 68,52 62,50" fill="none" stroke="#5D4037" stroke-width="2.5" stroke-linecap="round"/><circle cx="40" cy="40" r="5" fill="#263238"/><circle cx="60" cy="40" r="5" fill="#263238"/><path d="M46,48 C50,54 54,54 58,48" fill="none" stroke="#263238" stroke-width="2" stroke-linecap="round"/>
+                                    </g>
+                                    <g id="pet-stage-3" class="opacity-0 transition-opacity">
+                                        <!-- Stage 3: Glowing -->
+                                         <path d="M50,98 C77.6,98 90,77.6 90,50 C90,22.4 77.6,2 50,2 C22.4,2 10,22.4 10,50 C10,77.6 22.4,98 50,98 Z" fill="#2E7D32"/><path d="M50,92 C74.2,92 84,74.2 84,50 C84,25.8 74.2,8 50,8 C25.8,8 16,25.8 16,50 C16,74.2 25.8,92 50,92 Z" fill="#A5D6A7"/><path d="M50,68 C70,68 74,50 50,45 C26,50 30,68 50,68 Z" fill="#E91E63" transform="rotate(10 50 50)"/><path d="M35,60 C32,58 32,52 38,50" fill="none" stroke="#5D4037" stroke-width="2.5" stroke-linecap="round"/><path d="M65,60 C68,58 68,52 62,50" fill="none" stroke="#5D4037" stroke-width="2.5" stroke-linecap="round"/><circle cx="40" cy="40" r="5" fill="#263238"/><circle cx="60" cy="40" r="5" fill="#263238"/><path d="M46,48 C50,54 54,54 58,48" fill="none" stroke="#263238" stroke-width="2" stroke-linecap="round"/>
+                                        <g class="sparkles"><path class="sparkle" d="M 20 20 L 25 15 L 30 20 L 25 25 Z" fill="#FBBF24"/><path class="sparkle" d="M 80 30 L 85 25 L 90 30 L 85 35 Z" fill="#FBBF24"/><path class="sparkle" d="M 30 70 L 35 65 L 40 70 L 35 75 Z" fill="#FBBF24"/></g>
+                                    </g>
+                                </svg>
+                            </div>
+                            <p class="text-xs text-slate-500 mt-2">Your companion grows with kindness</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 3. Community Feed -->
+                <section id="feed" class="page hidden">
+                     <h2 class="font-heading text-3xl font-semibold text-slate-800 mb-6">Community Kindness</h2>
+                     <div class="space-y-6 max-w-2xl mx-auto">
+                        <!-- AI Supportive Reply -->
+                        <div class="flex items-start gap-3"><div class="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center shrink-0"><svg class="w-5 h-5 text-indigo-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2z"></path></svg></div><div class="bg-gradient-to-r from-indigo-50 to-purple-50 text-indigo-800 text-sm px-4 py-3 rounded-xl rounded-tl-none shadow-sm">It's brave to share. Small steps lead to big change!</div></div>
+                        <!-- Post Card 1 -->
+                        <div class="card p-5" data-post-id="1">
+                            <p class="text-slate-700 mb-4" data-post-content>Feeling overwhelmed with exams. It feels like too much to handle. Any advice?</p>
+                            <div class="flex items-center justify-between text-slate-400">
+                                <div class="flex gap-4">
+                                    <button class="flex items-center gap-1.5 text-pink-500 hover:text-pink-600 transition-colors" aria-label="Like post"><svg class="w-5 h-5" viewBox="0 0 24 24"><path fill="currentColor" d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"></path></svg> 12</button>
+                                    <button class="flex items-center gap-1.5 hover:text-blue-500 transition-colors" aria-label="Comment on post"><i data-lucide="message-circle" class="w-4 h-4"></i> 3</button>
+                                </div>
+                                <button class="text-xs text-indigo-500 hover:underline flex items-center gap-1" onclick="getAIUplift(this)" aria-label="Get an AI Uplift for this post">
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2z"></path></svg>
+                                Get an AI Uplift</button>
+                            </div>
+                            <div class="ai-reply-container mt-4"></div>
+                        </div>
+                     </div>
+                </section>
+
+                <!-- 4. Profile Page -->
+                <section id="profile" class="page hidden">
+                     <h2 class="font-heading text-3xl font-semibold text-slate-800 mb-6">Your Progress</h2>
+                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                         <div>
+                             <div class="card p-8 flex items-center gap-6 mb-6">
+                                <div class="w-24 h-24 bg-gradient-to-br from-purple-200 to-indigo-300 rounded-full flex items-center justify-center shrink-0"><i data-lucide="user" class="w-12 h-12 text-white"></i></div>
+                                <div><p class="font-heading text-2xl font-semibold text-slate-800">Empathy Explorer</p><p class="text-slate-500 mb-3">Level 7</p><div class="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden"><div id="profile-progress" class="progress-bar-fill h-2.5 rounded-full" style="width: 75%;"></div></div></div>
+                             </div>
+                             <div class="card p-6">
+                                <h3 class="font-heading font-semibold text-xl text-slate-700 mb-4">Your Badges</h3>
+                                <div class="grid grid-cols-3 sm:grid-cols-4 gap-4">
+                                    <div class="flex flex-col items-center text-center gap-2"><div class="w-20 h-20 flex items-center justify-center bg-pink-100 rounded-full transition-transform hover:scale-110"><svg class="w-12 h-12 text-pink-500" viewBox="0 0 24 24"><path fill="currentColor" d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"></path></svg></div><p class="text-xs text-slate-500">First Kindness</p></div>
+                                     <div class="flex flex-col items-center text-center gap-2"><div class="w-20 h-20 flex items-center justify-center bg-yellow-100 rounded-full badge-glow transition-transform hover:scale-110"><svg class="w-12 h-12 text-yellow-500" viewBox="0 0 24 24"><path fill="currentColor" d="M12,17.27L18.18,21L17,14.64L22,9.73L15.63,8.89L12,3L8.37,8.89L2,9.73L7,14.64L5.82,21L12,17.27Z"></path></svg></div><p class="text-xs text-slate-500">Rising Star</p></div>
+                                     <div class="flex flex-col items-center text-center gap-2"><div class="w-20 h-20 flex items-center justify-center bg-green-100 rounded-full transition-transform hover:scale-110"><svg class="w-12 h-12 text-green-500" viewBox="0 0 24 24"><path fill="currentColor" d="M12,2C6.48,2 2,6.48 2,12C2,17.52 6.48,22 12,22C17.52,22 22,17.52 22,12C22,6.48 17.52,2 12,2M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M16.5,13.5C16.5,14.33 15.83,15 15,15C14.17,15 13.5,14.33 13.5,13.5C13.5,12.67 14.17,12 15,12C15.83,12 16.5,12.67 16.5,13.5M8.5,13.5C8.5,14.33 7.83,15 7,15C6.17,15 5.5,14.33 5.5,13.5C5.5,12.67 6.17,12 7,12C7.83,12 8.5,12.67 8.5,13.5M12,17.5C14.33,17.5 16.3,16.25 17.12,14.5H6.88C7.7,16.25 9.67,17.5 12,17.5Z"></path></svg></div><p class="text-xs text-slate-500">Supportive Smile</p></div>
+                                </div>
+                             </div>
+                         </div>
+                         <div class="card p-6 flex flex-col items-center justify-center">
+                            <h3 class="font-heading font-semibold text-xl text-slate-700 mb-4">Gratitude Garden</h3>
+                            <div class="relative w-full h-64">
+                                <!-- Tree -->
+                                <svg class="absolute bottom-0 left-1/2 -translate-x-1/2 h-48 w-48" viewBox="0 0 100 100">
+                                    <path d="M 48 90 L 52 90 L 52 50 L 48 50 Z" fill="#6B4226" />
+                                    <circle cx="50" cy="35" r="25" fill="#4CAF50" />
+                                    <circle cx="35" cy="40" r="18" fill="#66BB6A" />
+                                    <circle cx="65" cy="40" r="18" fill="#66BB6A" />
+                                    <circle cx="50" cy="20" r="15" fill="#81C784" />
+                                     <!-- Blossoms -->
+                                    <circle cx="58" cy="15" r="4" fill="#F48FB1"/>
+                                    <circle cx="42" cy="18" r="3" fill="#F8BBD0"/>
+                                    <circle cx="70" cy="35" r="5" fill="#F48FB1"/>
+                                </svg>
+                                <!-- Avocado Companion -->
+                                <div class="absolute bottom-4 right-10 w-20 h-20">
+                                     <svg viewBox="0 0 100 100" class="w-full h-full">
+                                        <!-- Happy Avocado for Profile -->
+                                        <path d="M50,98 C77.6,98 90,77.6 90,50 C90,22.4 77.6,2 50,2 C22.4,2 10,22.4 10,50 C10,77.6 22.4,98 50,98 Z" fill="#2E7D32"/><path d="M50,92 C74.2,92 84,74.2 84,50 C84,25.8 74.2,8 50,8 C25.8,8 16,25.8 16,50 C16,74.2 25.8,92 50,92 Z" fill="#A5D6A7"/><path d="M50,68 C70,68 74,50 50,45 C26,50 30,68 50,68 Z" fill="#E91E63" transform="rotate(10 50 50)"/><path d="M35,60 C32,58 32,52 38,50" fill="none" stroke="#5D4037" stroke-width="2.5" stroke-linecap="round"/><path d="M65,60 C68,58 68,52 62,50" fill="none" stroke="#5D4037" stroke-width="2.5" stroke-linecap="round"/><circle cx="40" cy="40" r="5" fill="#263238"/><circle cx="60" cy="40" r="5" fill="#263238"/><path d="M46,48 C50,54 54,54 58,48" fill="none" stroke="#263238" stroke-width="2" stroke-linecap="round"/>
+                                     </svg>
+                                </div>
+                            </div>
+                            <p class="text-sm text-slate-500 mt-2">Your kindness helps the garden grow!</p>
+                         </div>
+                     </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast-notification" class="toast-notification fixed top-5 right-5 bg-green-500 text-white py-2 px-5 rounded-lg shadow-xl translate-x-[120%]">
+        <p>+10 Kindness Points for your supportive comment!</p>
+    </div>
+
+    <!-- Crisis Alert Modal -->
+    <div id="crisis-modal" class="page fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 z-50 hidden">
+        <div class="card w-full max-w-lg text-center p-8 relative">
+            <h2 class="font-heading text-2xl font-semibold text-slate-800 mb-4">You are not alone.</h2>
+            <p class="text-slate-600 mb-8">Help is always available. If you are in crisis, please reach out.</p>
+            <div class="w-24 h-24 breathing-circle rounded-full mx-auto mb-4 flex items-center justify-center bg-gradient-to-br from-blue-300 to-purple-400">
+                <svg class="w-12 h-12 text-white/80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 4C16.4183 4 20 7.58172 20 12C20 16.4183 16.4183 20 12 20C7.58172 20 4 16.4183 4 12C4 7.58172 7.58172 4 12 4Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 8V16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 12H16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <p class="text-sm text-slate-500 mb-8">Follow the circle. Breathe in and out.</p>
+            <button class="w-full bg-blue-600 text-white font-bold py-3 px-8 rounded-xl shadow-lg hover:bg-blue-700 transition" aria-label="Call National Helpline at 1-800-273-8255">National Helpline: 1-800-273-8255</button>
+            <button onclick="closeModal('crisis-modal')" class="text-sm text-slate-500 mt-4 hover:underline" aria-label="Close crisis modal">Close</button>
+        </div>
+    </div>
+     <!-- Generic Modal for Gemini Responses -->
+    <div id="gemini-modal" class="page fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 z-50 hidden">
+        <div class="card w-full max-w-lg p-8 relative">
+            <div id="gemini-modal-content">
+                <!-- Content will be injected here -->
+            </div>
+            <button onclick="closeModal('gemini-modal')" class="btn-primary w-full py-2 mt-6" aria-label="Close modal">Close</button>
+        </div>
+    </div>
+
+    <button onclick="openModal('crisis-modal')" class="fixed bottom-6 right-6 bg-red-500 text-white rounded-full p-3 shadow-lg hover:bg-red-600" aria-label="Open Crisis Modal">
+        <i data-lucide="alert-triangle"></i>
+    </button>
+
+    <script>
+        lucide.createIcons();
+        const pages = document.querySelectorAll('.page');
+        const navItems = document.querySelectorAll('.nav-item');
+        let currentPoints = 1500;
+        const apiKey = ""; // Leave blank.
+
+        // --- Gemini API Call Function ---
+        async function callGemini(prompt, systemInstruction = "") {
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+            
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }],
+            };
+            
+            if (systemInstruction) {
+                payload.systemInstruction = { parts: [{ text: systemInstruction }] };
+            }
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API call failed with status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                const candidate = result.candidates?.[0];
+
+                if (candidate && candidate.content?.parts?.[0]?.text) {
+                    return candidate.content.parts[0].text;
+                } else {
+                    return "Sorry, I couldn't generate a response right now.";
+                }
+            } catch (error) {
+                console.error("Gemini API call error:", error);
+                return "An error occurred while connecting to the AI. Please try again later.";
+            }
+        }
+
+        // --- Gemini Feature: AI Uplift ---
+        async function getAIUplift(buttonElement) {
+            const postCard = buttonElement.closest('.card');
+            const postContent = postCard.querySelector('[data-post-content]').textContent;
+            const replyContainer = postCard.querySelector('.ai-reply-container');
+            
+            replyContainer.innerHTML = `
+                <div class="flex items-center gap-2 text-sm text-indigo-600">
+                    <div class="gemini-loader-dot w-2 h-2 bg-indigo-400 rounded-full"></div>
+                    <div class="gemini-loader-dot w-2 h-2 bg-indigo-400 rounded-full"></div>
+                    <div class="gemini-loader-dot w-2 h-2 bg-indigo-400 rounded-full"></div>
+                    <span>Buddy AI is thinking...</span>
+                </div>`;
+            buttonElement.disabled = true;
+
+            const systemPrompt = "You are a kind and empathetic friend named 'Buddy AI'. A user has shared the following thought in a safe space community. Your task is to respond with a short (1-2 sentences), supportive, and uplifting message. Avoid giving direct advice. Focus on validation and encouragement.";
+            const aiResponse = await callGemini(postContent, systemPrompt);
+
+            replyContainer.innerHTML = `
+                <div class="flex items-start gap-3">
+                    <div class="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center shrink-0">
+                        <svg class="w-5 h-5 text-indigo-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2z"></path></svg>
+                    </div>
+                    <div class="bg-gradient-to-r from-indigo-50 to-purple-50 text-indigo-800 text-sm px-4 py-3 rounded-xl rounded-tl-none shadow-sm">
+                        ${aiResponse}
+                    </div>
+                </div>`;
+            buttonElement.remove(); // Remove button after use
+        }
+
+        // --- Gemini Feature: Mood Insight ---
+        async function getMoodInsight(mood) {
+            const modalContent = document.getElementById('gemini-modal-content');
+            modalContent.innerHTML = `
+                <div class="text-center">
+                    <h2 class="font-heading text-xl font-semibold text-slate-800 mb-4">Your Mood Insight</h2>
+                    <div class="flex items-center justify-center gap-2 text-sm text-indigo-600 my-4">
+                        <div class="gemini-loader-dot w-2 h-2 bg-indigo-400 rounded-full"></div>
+                        <div class="gemini-loader-dot w-2 h-2 bg-indigo-400 rounded-full"></div>
+                        <div class="gemini-loader-dot w-2 h-2 bg-indigo-400 rounded-full"></div>
+                        <span>Generating your personal reflection...</span>
+                    </div>
+                </div>`;
+            openModal('gemini-modal');
+            
+            const systemPrompt = "Act as a gentle and wise wellness coach. A user has logged their mood. Provide a brief (2-3 sentences), kind, and insightful reflection based on this mood. Offer a simple, actionable mindfulness tip or a positive affirmation related to this feeling. Do not offer medical advice.";
+            const userPrompt = `The user's mood is: ${mood}`;
+            const insight = await callGemini(userPrompt, systemPrompt);
+            
+            modalContent.innerHTML = `
+                <h2 class="font-heading text-xl font-semibold text-slate-800 mb-4 text-center">Your Mood Insight for "${mood}"</h2>
+                <p class="text-slate-600">${insight}</p>
+            `;
+        }
+
+
+        // --- Existing App Logic ---
+        function showPage(pageId) {
+            const container = document.getElementById('page-container');
+            const activePage = container.querySelector('.page:not(.hidden)');
+
+            if (activePage) {
+                activePage.classList.add('hidden');
+            }
+
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.remove('hidden');
+            }
+            
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('href') === `#${pageId}`) item.classList.add('active');
+            });
+        }
+        
+        function openModal(modalId) { 
+            const modal = document.getElementById(modalId);
+            if(modal) modal.classList.remove('hidden'); 
+        }
+
+        function closeModal(modalId) { 
+            const modal = document.getElementById(modalId);
+            if(modal) modal.classList.add('hidden'); 
+        }
+        
+        function toggleMascot() {
+            const useMascot = document.getElementById('mascot-toggle').checked;
+            document.getElementById('mascot-container').classList.toggle('hidden', !useMascot);
+            document.getElementById('abstract-container').classList.toggle('hidden', useMascot);
+        }
+
+        function handlePhotoUpload() {
+            const uploadState = document.getElementById('login-upload-state');
+            const resultState = document.getElementById('login-result-state');
+            const moodText = document.getElementById('mood-text');
+            const moodSubtext = document.getElementById('mood-subtext');
+            const enterBtn = document.getElementById('enter-safespace-btn');
+            const petContainer = document.getElementById('login-companion-pet');
+
+            uploadState.classList.add('hidden');
+            resultState.classList.remove('hidden');
+            
+            const pets = {
+                thoughtful: `<svg viewBox="0 0 100 100"><g><path d="M45 95 L55 95 L55 80 L45 80 Z" fill="#A16207"/><path d="M30 85 L70 85 Q 75 75 70 65 L30 65 Q 25 75 30 85 Z" fill="#F59E0B"/><path d="M50 65 C 40 55, 40 40, 50 35 C 60 40, 60 55, 50 65" fill="#818CF8"/><path d="M48 50 L52 50" stroke="#fff" stroke-width="3" stroke-linecap="round"/></g></svg>`,
+                happy: `<svg viewBox="0 0 100 100"><g style="transform: scale(1.1); transform-origin: center;"><path d="M45 95 L55 95 L55 80 L45 80 Z" fill="#A16207"/><path d="M30 85 L70 85 Q 75 75 70 65 L30 65 Q 25 75 30 85 Z" fill="#F59E0B"/><path d="M50 65 C 30 55, 30 25, 50 20 C 70 25, 70 55, 50 65" fill="#4ADE80"/><path d="M50, 40 m -7, 0 a 7,7 0 1,0 14,0 a 7,7 0 1,0 -14,0" fill="gold"/><path d="M50, 40 m -3, 0 a 3,3 0 1,0 6,0 a 3,3 0 1,0 -6,0" fill="#F97316"/></g></svg>`,
+                calm: `<svg viewBox="0 0 100 100"><g><path d="M45 95 L55 95 L55 80 L45 80 Z" fill="#A16207"/><path d="M30 85 L70 85 Q 75 75 70 65 L30 65 Q 25 75 30 85 Z" fill="#F59E0B"/><path d="M50 65 L45 55 L55 55 Z" fill="#A7F3D0"/><path d="M45 50 C 48 45, 52 45, 55 50" fill="none" stroke="#047857" stroke-width="2" stroke-linecap="round"/></g></svg>`
+            };
+            
+            petContainer.innerHTML = pets.calm;
+            
+            setTimeout(() => {
+                const moods = [
+                    { name: 'thoughtful', text: "You look thoughtful today", subtext: "Let’s start with some calm energy 🌿", pet: pets.thoughtful },
+                    { name: 'happy', text: "You’re glowing with positivity!", subtext: "Keep spreading that kindness 🌟", pet: pets.happy },
+                    { name: 'calm', text: "A sense of calm surrounds you", subtext: "Let's nurture that peaceful feeling 💧", pet: pets.calm },
+                ];
+                const detectedMood = moods[Math.floor(Math.random() * moods.length)];
+                
+                petContainer.innerHTML = detectedMood.pet;
+                moodText.textContent = detectedMood.text;
+                moodSubtext.textContent = detectedMood.subtext;
+                enterBtn.classList.remove('opacity-0');
+            }, 2000);
+        }
+
+        function showNotification(message) {
+            const toast = document.getElementById('toast-notification');
+            toast.textContent = message;
+            toast.classList.remove('translate-x-[120%]');
+            setTimeout(() => {
+                toast.classList.add('translate-x-[120%]');
+            }, 3000);
+        }
+
+        function updateEmotionPet(points) {
+            const pet = document.getElementById('emotion-pet');
+            if (!pet) return;
+            const stage1 = pet.querySelector('#pet-stage-1');
+            const stage2 = pet.querySelector('#pet-stage-2');
+            const stage3 = pet.querySelector('#pet-stage-3');
+            
+            if (!stage1 || !stage2 || !stage3) return;
+
+            stage1.style.opacity = '0'; stage2.style.opacity = '0'; stage3.style.opacity = '0';
+
+            if (points < 1510) {
+                stage1.style.opacity = '1';
+            } else if (points < 1530) {
+                stage2.style.opacity = '1';
+            } else {
+                stage3.style.opacity = '1';
+            }
+        }
+        
+        function triggerConfetti() {
+            const container = document.querySelector('.confetti-container');
+            if (!container) return;
+            const colors = ['#A5B4FC', '#8C6DF0', '#FBBF24', '#F472B6', '#4ADE80'];
+            for (let i = 0; i < 30; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = `${Math.random() * 100}%`;
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = `${Math.random() * 2}s`;
+                container.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 3000);
+            }
+        }
+        
+        function addPoints(amount) {
+            currentPoints += amount;
+            const pointsEl = document.getElementById('kindness-points');
+            if(pointsEl) pointsEl.textContent = currentPoints.toLocaleString();
+
+            const progress = document.getElementById('profile-progress');
+            if(progress){
+                let currentProgress = parseFloat(progress.style.width);
+                progress.style.width = `${Math.min(100, currentProgress + 5)}%`;
+            }
+            updateEmotionPet(currentPoints);
+            showNotification(`+${amount} Kindness Points!`);
+            
+            const petEl = document.getElementById('emotion-pet');
+            if(petEl) {
+                petEl.classList.add('celebrate-bounce');
+                setTimeout(() => petEl.classList.remove('celebrate-bounce'), 600);
+            }
+            triggerConfetti();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            showPage('login');
+            updateEmotionPet(currentPoints);
+            setTimeout(() => {
+                const progress = document.getElementById('profile-progress');
+                if(progress) progress.style.width = '75%';
+            }, 100);
+        });
+    </script>
+</body>
+</html>
+
